@@ -7,6 +7,8 @@ namespace Retriever.Net
         string Fetch(string procName);
         string Fetch(string procName, string jsonFetchParams);
         string Update(string procName, string jsonData);
-        string Update(List<dynamic> objects);
+        string Update(string procName, string jsonData, TransactionMode transMode);
+        string Update(string procName, List<dynamic> objects);
+        string Update(string procname, List<dynamic> objects, TransactionMode transMode);
     }
 }

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Members.cs" />
     <Compile Include="SqlDataRequest.cs" />
     <Compile Include="IDataRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

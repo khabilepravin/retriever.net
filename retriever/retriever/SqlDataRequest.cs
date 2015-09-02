@@ -21,6 +21,8 @@ namespace Retriever.Net
         /// <param name="conn">Initialized SqlConnection object</param>
         public SqlDataRequest(SqlConnection conn) { }
 
+
+
         public string Fetch(string procName)
         {
             throw new System.NotImplementedException();
@@ -36,7 +38,17 @@ namespace Retriever.Net
             throw new System.NotImplementedException();
         }
 
-        public string Update(System.Collections.Generic.List<dynamic> objects)
+        public string Update(string procName, string jsonData, TransactionMode transMode)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string Update(string procName, System.Collections.Generic.List<dynamic> objects)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string Update(string procName, System.Collections.Generic.List<dynamic> objects, TransactionMode transMode)
         {
             throw new System.NotImplementedException();
         }
