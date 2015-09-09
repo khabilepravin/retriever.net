@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Configuration;
+using System.Data.SqlClient;
 
 namespace Retriever.Net
 {
@@ -7,25 +8,40 @@ namespace Retriever.Net
         /// <summary>
         /// This will assume "ConnectionString" is the config key for the connection string and will look for it.
         /// </summary>
-        public SqlDataRequest() { }
+        public SqlDataRequest() 
+        {
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["ConnectionString"];
+
+            if (settings != null)
+            {
+                settings.ConnectionString = settings.ConnectionString;
+            }
+        }
         
         /// <summary>
         /// Creates an instance of the DataRequest with specific connection string config key
         /// </summary>
         /// <param name="connectionStringConfigKey">Configuration key to get connection string from "ConnectionStrings" section</param>
-        public SqlDataRequest(string connectionStringConfigKey) { }
-
-        /// <summary>
-        /// Creates an instance with already initalized connection object
-        /// </summary>
-        /// <param name="conn">Initialized SqlConnection object</param>
-        public SqlDataRequest(SqlConnection conn) { }
-
-
-
-        public string Fetch(string procName)
+        public SqlDataRequest(string connectionStringConfigKey) 
         {
-            throw new System.NotImplementedException();
+            this.ConnectionString = ConfigurationManager.ConnectionStrings[connectionStringConfigKey].ConnectionString;
+        }
+
+        private SqlConnection CreateNewConnection()
+        {
+            return new SqlConnection(this.ConnectionString);
+        }
+
+        public string Fetch(string storedProcedureName)
+        {
+            using (SqlConnection dbConn = CreateNewConnection())
+            {
+                SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure };
+
+                SqlDataReader dataReader = dbComm.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+            }
+
+            return string.Empty;
         }
 
         public string Fetch(string procName, string jsonFetchParams)
@@ -52,5 +68,7 @@ namespace Retriever.Net
         {
             throw new System.NotImplementedException();
         }
+
+        public string ConnectionString { get; set; }
     }
 }

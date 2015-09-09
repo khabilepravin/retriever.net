@@ -4,6 +4,7 @@ namespace Retriever.Net
 {
     interface IDataRequest
     {
+        string ConnectionString { get; set; }
         string Fetch(string procName);
         string Fetch(string procName, string jsonFetchParams);
         string Update(string procName, string jsonData);
