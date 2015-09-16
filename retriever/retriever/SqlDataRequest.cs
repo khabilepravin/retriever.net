@@ -34,24 +34,45 @@ namespace Retriever.Net
 
         public string Fetch(string storedProcedureName)
         {
+            return Fetch(storedProcedureName, string.Empty);
+        }
+
+        public string Fetch(string storedProcedureName, string jsonFetchParams)
+        {
+            string resultJson = string.Empty;
             using (SqlConnection dbConn = CreateNewConnection())
             {
                 SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure };
 
+                if (!string.IsNullOrWhiteSpace(jsonFetchParams))
+                {
+                    dbComm.Parameters.AddRange(jsonFetchParams.DeserializeJsonIntoSqlParameters());
+                }
+
+                dbConn.Open();
                 SqlDataReader dataReader = dbComm.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+                resultJson = dataReader.SerializeToJSON();
+                dataReader.Close();
             }
 
-            return string.Empty;
+            return resultJson;
         }
 
-        public string Fetch(string procName, string jsonFetchParams)
+        public int Update(string storedProcedureName, string jsonData)
         {
-            throw new System.NotImplementedException();
-        }
+            int numberOfRecordsAffected = 0;
+            using (SqlConnection dbConn = CreateNewConnection())
+            {
+                SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure };
 
-        public string Update(string procName, string jsonData)
-        {
-            throw new System.NotImplementedException();
+                dbComm.Parameters.AddRange(jsonData.DeserializeJsonIntoSqlParameters());
+
+                dbConn.Open();
+                numberOfRecordsAffected = dbComm.ExecuteNonQuery();
+            }
+
+            return numberOfRecordsAffected;
         }
 
         public string Update(string procName, string jsonData, TransactionMode transMode)
