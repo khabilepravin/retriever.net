@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using Newtonsoft.Json;
+using System.Configuration;
 using System.Data.SqlClient;
 
 namespace Retriever.Net
@@ -61,33 +62,75 @@ namespace Retriever.Net
 
         public int Update(string storedProcedureName, string jsonData)
         {
+            return Update(storedProcedureName, jsonData, TransactionMode.None);
+        }
+
+        public int Update(string storedProcedureName, string jsonData, TransactionMode transMode)
+        {
             int numberOfRecordsAffected = 0;
+            SqlTransaction transaction = null;
+
             using (SqlConnection dbConn = CreateNewConnection())
             {
                 SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure };
+
+                if (transMode == TransactionMode.Transaction)
+                {
+                    transaction = dbConn.BeginTransaction();
+                }
 
                 dbComm.Parameters.AddRange(jsonData.DeserializeJsonIntoSqlParameters());
 
                 dbConn.Open();
                 numberOfRecordsAffected = dbComm.ExecuteNonQuery();
+                if (transaction != null) { transaction.Commit(); }
             }
 
             return numberOfRecordsAffected;
         }
 
-        public string Update(string procName, string jsonData, TransactionMode transMode)
+        public int Update(string storedProcedureName, dynamic obj) 
         {
-            throw new System.NotImplementedException();
+            return Update(storedProcedureName, JsonConvert.SerializeObject(obj));
         }
 
-        public string Update(string procName, System.Collections.Generic.List<dynamic> objects)
+        public int Update(string storedProcedureName, dynamic obj, TransactionMode transMode)
         {
-            throw new System.NotImplementedException();
+            return Update(storedProcedureName, JsonConvert.SerializeObject(obj), transMode);
         }
 
-        public string Update(string procName, System.Collections.Generic.List<dynamic> objects, TransactionMode transMode)
+        public int Update(string storedProcedureName, System.Collections.Generic.List<dynamic> objects)
         {
-            throw new System.NotImplementedException();
+           return Update(storedProcedureName, objects, TransactionMode.None);
+        }
+
+        public int Update(string storedProcedureName, System.Collections.Generic.List<dynamic> objects, TransactionMode transMode)
+        {
+            // This has slightly different logic because we need to scope the transaction differently.
+            int numberOfRecordsAffected = 0;
+            SqlTransaction transaction = null;
+
+            using (SqlConnection dbConn = CreateNewConnection())
+            {
+                SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure };
+                
+                if (transMode == TransactionMode.Transaction)
+                {
+                    transaction = dbConn.BeginTransaction();
+                }
+
+                foreach (dynamic obj in objects)
+                {
+                    dbComm.Parameters.AddRange(JsonConvert.SerializeObject(obj));
+
+                    if (dbConn.State != System.Data.ConnectionState.Open) { dbConn.Open(); }
+                    numberOfRecordsAffected += dbComm.ExecuteNonQuery();
+                }
+
+                if (transaction != null) { transaction.Commit(); }
+            }
+
+            return numberOfRecordsAffected;
         }
 
         public string ConnectionString { get; set; }

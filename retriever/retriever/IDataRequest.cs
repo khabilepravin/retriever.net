@@ -5,11 +5,13 @@ namespace Retriever.Net
     interface IDataRequest
     {
         string ConnectionString { get; set; }
-        string Fetch(string procName);
-        string Fetch(string procName, string jsonFetchParams);
-        int Update(string procName, string jsonData);
-        string Update(string procName, string jsonData, TransactionMode transMode);
-        string Update(string procName, List<dynamic> objects);
-        string Update(string procname, List<dynamic> objects, TransactionMode transMode);
+        string Fetch(string storedProcedureName);
+        string Fetch(string storedProcedureName, string jsonFetchParams);
+        int Update(string storedProcedureName, string jsonData);
+        int Update(string storedProcedureName, string jsonData, TransactionMode transMode);
+        int Update(string storedProcedureName, dynamic obj);
+        int Update(string storedProcedureName, dynamic obj, TransactionMode transMode);
+        int Update(string storedProcedureName, List<dynamic> objects);
+        int Update(string storedProcedureName, List<dynamic> objects, TransactionMode transMode);
     }
 }
