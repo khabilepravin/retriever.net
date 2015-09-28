@@ -33,11 +33,6 @@ namespace Retriever.Net
             return new SqlConnection(this.ConnectionString);
         }
 
-        public string Fetch(string storedProcedureName)
-        {
-            return Fetch(storedProcedureName, string.Empty);
-        }
-
         public string Fetch(string storedProcedureName, string jsonFetchParams)
         {
             string resultJson = string.Empty;
@@ -60,11 +55,11 @@ namespace Retriever.Net
             return resultJson;
         }
 
-        public int Update(string storedProcedureName, string jsonData)
+        public string Fetch(string storedProcedureName)
         {
-            return Update(storedProcedureName, jsonData, TransactionMode.None);
+            return Fetch(storedProcedureName, string.Empty);
         }
-
+        
         public int Update(string storedProcedureName, string jsonData, TransactionMode transMode)
         {
             int numberOfRecordsAffected = 0;
@@ -89,6 +84,11 @@ namespace Retriever.Net
             return numberOfRecordsAffected;
         }
 
+        public int Update(string storedProcedureName, string jsonData)
+        {
+            return Update(storedProcedureName, jsonData, TransactionMode.None);
+        }
+
         public int Update(string storedProcedureName, dynamic obj) 
         {
             return Update(storedProcedureName, JsonConvert.SerializeObject(obj));
@@ -97,11 +97,6 @@ namespace Retriever.Net
         public int Update(string storedProcedureName, dynamic obj, TransactionMode transMode)
         {
             return Update(storedProcedureName, JsonConvert.SerializeObject(obj), transMode);
-        }
-
-        public int Update(string storedProcedureName, System.Collections.Generic.List<dynamic> objects)
-        {
-           return Update(storedProcedureName, objects, TransactionMode.None);
         }
 
         public int Update(string storedProcedureName, System.Collections.Generic.List<dynamic> objects, TransactionMode transMode)
@@ -113,7 +108,7 @@ namespace Retriever.Net
             using (SqlConnection dbConn = CreateNewConnection())
             {
                 SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure };
-                
+
                 if (transMode == TransactionMode.Transaction)
                 {
                     transaction = dbConn.BeginTransaction();
@@ -121,6 +116,7 @@ namespace Retriever.Net
 
                 foreach (dynamic obj in objects)
                 {
+                    dbComm.Parameters.Clear();
                     dbComm.Parameters.AddRange(JsonConvert.SerializeObject(obj));
 
                     if (dbConn.State != System.Data.ConnectionState.Open) { dbConn.Open(); }
@@ -131,6 +127,11 @@ namespace Retriever.Net
             }
 
             return numberOfRecordsAffected;
+        }
+
+        public int Update(string storedProcedureName, System.Collections.Generic.List<dynamic> objects)
+        {
+           return Update(storedProcedureName, objects, TransactionMode.None);
         }
 
         public string ConnectionString { get; set; }
