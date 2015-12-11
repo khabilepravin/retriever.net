@@ -38,23 +38,25 @@ namespace Retriever.Net
             string resultJson = string.Empty;
             using (SqlConnection dbConn = CreateNewConnection())
             {
-                SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure };
-
-                if (!string.IsNullOrWhiteSpace(jsonFetchParams))
+                using (SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure })
                 {
-                    dbComm.Parameters.AddRange(jsonFetchParams.DeserializeJsonIntoSqlParameters());
+                    if (!string.IsNullOrWhiteSpace(jsonFetchParams))
+                    {
+                        dbComm.Parameters.AddRange(jsonFetchParams.DeserializeJsonIntoSqlParameters());
+                    }
+
+                    dbConn.Open();
+                    SqlDataReader dataReader = dbComm.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+                    resultJson = dataReader.SerializeToJSON();
+                    dataReader.Close();
                 }
-
-                dbConn.Open();
-                SqlDataReader dataReader = dbComm.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
-
-                resultJson = dataReader.SerializeToJSON();
-                dataReader.Close();
             }
 
             return resultJson;
         }
 
+        // Fetch overload which doesn't have any parameters
         public string Fetch(string storedProcedureName)
         {
             return Fetch(storedProcedureName, string.Empty);
@@ -67,23 +69,57 @@ namespace Retriever.Net
 
             using (SqlConnection dbConn = CreateNewConnection())
             {
-                SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure };
-
-                if (transMode == TransactionMode.Transaction)
+                using (SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure })
                 {
-                    transaction = dbConn.BeginTransaction();
+                    if (transMode == TransactionMode.Transaction)
+                    {
+                        transaction = dbConn.BeginTransaction();
+                    }
+
+                    dbComm.Parameters.AddRange(jsonData.DeserializeJsonIntoSqlParameters());
+
+                    dbConn.Open();
+                    numberOfRecordsAffected = dbComm.ExecuteNonQuery();
+                    if (transaction != null) { transaction.Commit(); }
                 }
-
-                dbComm.Parameters.AddRange(jsonData.DeserializeJsonIntoSqlParameters());
-
-                dbConn.Open();
-                numberOfRecordsAffected = dbComm.ExecuteNonQuery();
-                if (transaction != null) { transaction.Commit(); }
             }
 
             return numberOfRecordsAffected;
         }
 
+        public int Update(string storedProcedureName, System.Collections.Generic.List<dynamic> objects, TransactionMode transMode)
+        {
+            // This has slightly different logic because we need to scope the transaction differently.
+            int numberOfRecordsAffected = 0;
+            SqlTransaction transaction = null;
+
+            using (SqlConnection dbConn = CreateNewConnection())
+            {
+                using (SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure })
+                {
+                    if (transMode == TransactionMode.Transaction)
+                    {
+                        transaction = dbConn.BeginTransaction();
+                    }
+
+                    foreach (dynamic obj in objects)
+                    {
+                        dbComm.Parameters.Clear();
+                        string jsonString = JsonConvert.SerializeObject(obj);
+                        dbComm.Parameters.AddRange(jsonString.DeserializeJsonIntoSqlParameters());
+
+                        if (dbConn.State != System.Data.ConnectionState.Open) { dbConn.Open(); }
+                        numberOfRecordsAffected += dbComm.ExecuteNonQuery();
+                    }
+
+                    if (transaction != null) { transaction.Commit(); }
+                }
+            }
+
+            return numberOfRecordsAffected;
+        }
+
+        // All update overloads for flexibility of use
         public int Update(string storedProcedureName, string jsonData)
         {
             return Update(storedProcedureName, jsonData, TransactionMode.None);
@@ -99,41 +135,11 @@ namespace Retriever.Net
             return Update(storedProcedureName, JsonConvert.SerializeObject(obj), transMode);
         }
 
-        public int Update(string storedProcedureName, System.Collections.Generic.List<dynamic> objects, TransactionMode transMode)
-        {
-            // This has slightly different logic because we need to scope the transaction differently.
-            int numberOfRecordsAffected = 0;
-            SqlTransaction transaction = null;
-
-            using (SqlConnection dbConn = CreateNewConnection())
-            {
-                SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure };
-
-                if (transMode == TransactionMode.Transaction)
-                {
-                    transaction = dbConn.BeginTransaction();
-                }
-
-                foreach (dynamic obj in objects)
-                {
-                    dbComm.Parameters.Clear();
-                    dbComm.Parameters.AddRange(JsonConvert.SerializeObject(obj));
-
-                    if (dbConn.State != System.Data.ConnectionState.Open) { dbConn.Open(); }
-                    numberOfRecordsAffected += dbComm.ExecuteNonQuery();
-                }
-
-                if (transaction != null) { transaction.Commit(); }
-            }
-
-            return numberOfRecordsAffected;
-        }
-
         public int Update(string storedProcedureName, System.Collections.Generic.List<dynamic> objects)
         {
            return Update(storedProcedureName, objects, TransactionMode.None);
         }
-
+                
         public string ConnectionString { get; set; }
     }
 }
