@@ -1,54 +1,70 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Retriever.net : Minimal easy to integrate JSON based data access library for .net">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Retriever.net</title>
+    <meta charset="UTF-8">
+    <title>Retriever.net by khabilepravin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Retriever.net</h1>
+      <h2 class="project-tagline">Minimal easy to integrate JSON based data access library for .net</h2>
+      <a href="https://github.com/khabilepravin/retriever.net" class="btn">View on GitHub</a>
+      <a href="https://github.com/khabilepravin/retriever.net/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/khabilepravin/retriever.net/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/khabilepravin/retriever.net">View on GitHub</a>
+    <section class="main-content">
+      <h3>
+<a id="welcome-to-retrievernet" class="anchor" href="#welcome-to-retrievernet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to Retriever.net</h3>
 
-          <h1 id="project_title">Retriever.net</h1>
-          <h2 id="project_tagline">Minimal easy to integrate JSON based data access library for .net</h2>
+<p>In most .net projects some way of accessing database data is required, usually for all new projects many may choose to use ORM frameworks. But at times you just need an easy way to access data without much configuration. With many modern "Apps", all you need is JSON as input and output. </p>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/khabilepravin/retriever.net/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/khabilepravin/retriever.net/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+<p>This library makes it super easy to have JSON based dataAccess layer in minutes, currently only works with MS SQL Server database.  </p>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a id="welcome-to-retrievernet" class="anchor" href="#welcome-to-retrievernet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to Retriever.net.</h3>
+<p>This library depends on <a href="http://www.newtonsoft.com/json">Newtonsoft.Json</a> </p>
 
-<p>In most .net projects you need some way of accessing database data, usually for all new projects many may choose to use ORM frameworks. But at times you just need an easy way to access data without much configuration. With many modern apps, all you need is JSON coming out and going in. </p>
+<p>You can do retrieve directly to JSON with couple of lines of code like...  </p>
 
-<p>This library makes it super easy to have JSON based dataaccess layer in minutes, currently only works with MS SQL Server database.</p>
-      </section>
-    </div>
+<pre><code>// Param is the key to the connectionstring config 
+SqlDataRequest dataRequest = new SqlDataRequest("ConnectionString");    
+string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", "{ Id : 1 }"));  
+</code></pre>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Retriever.net maintained by <a href="https://github.com/khabilepravin">khabilepravin</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+<p>Similarly insert/update is as simple as... </p>
+
+<pre><code>var obj = new
+{
+ Id = rInt,
+ Name = string.Format("Test :{0}", DateTime.Now.ToLongDateString()),
+ Description = string.Format("Description :{0}", DateTime.Now.ToLongDateString()),
+ Details = string.Format("Details :{0}", DateTime.Now.ToLongDateString()),
+ RecordedDate = DateTime.Now,
+ IsActive = true
+};
+
+int rowsAffected = dataRequest.Update("[dbo].[usp_Test_Insert]", obj);
+
+// or you could directly send any JSON string like...
+int rowsAffected = dataRequest.Update("[dbo].[usp_Test_Insert]", "{ Id : 1, Name :'Test' }");
+
+// or a list of objects like...
+List&lt;dynamic&gt; objects = new List&lt;dynamic&gt;() { obj1, obj2, obj3 };
+int rowsAffected = dataRequest.Update("[dbo].[usp_Test_Insert]", objects);
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/khabilepravin/retriever.net">Retriever.net</a> is maintained by <a href="https://github.com/khabilepravin">khabilepravin</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
