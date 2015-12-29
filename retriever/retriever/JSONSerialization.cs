@@ -58,21 +58,21 @@ namespace Retriever.Net
             return result;
         }
 
-        public static dynamic SerializeToList<T>(this SqlDataReader reader)
+        internal static dynamic SerializeToList<T>(this SqlDataReader reader)
         {
             var r = Serialize(reader);
             string serilizedInString = JsonConvert.SerializeObject(r);
             return JsonConvert.DeserializeObject<T>(serilizedInString);
         }
 
-        public static dynamic SerializeToObject<T>(this SqlDataReader reader)
+        internal static dynamic SerializeToObject<T>(this SqlDataReader reader)
         {
             var r = SerializeSingle(reader);
             string serilizedInString = JsonConvert.SerializeObject(r);
             return JsonConvert.DeserializeObject<T>(serilizedInString);
         }
 
-        public static SqlParameter[] DeserializeJsonIntoSqlParameters(this string jsonString)
+        internal static SqlParameter[] DeserializeJsonIntoSqlParameters(this string jsonString)
         {
             List<SqlParameter> sqlParams = null;
             Dictionary<string, dynamic> parametersDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
@@ -95,35 +95,35 @@ namespace Retriever.Net
             return sqlParams.ToArray();
         }
 
-        public static T GetValueOrDefault<T>(this IDataRecord row, string fieldName)
+        internal static T GetValueOrDefault<T>(this IDataRecord row, string fieldName)
         {
             int ordinal = row.GetOrdinal(fieldName);
             return row.GetValueOrDefault<T>(ordinal);
         }
 
-        public static T GetValueOrDefault<T>(this IDataRecord row, int ordinal)
+        internal static T GetValueOrDefault<T>(this IDataRecord row, int ordinal)
         {
             return (T)(row.IsDBNull(ordinal) ? default(T) : row.GetValue(ordinal));
         }
 
-        public static bool GetValueOrBoolean(this IDataRecord row, string fieldName)
+        internal static bool GetValueOrBoolean(this IDataRecord row, string fieldName)
         {
             int ordinal = row.GetOrdinal(fieldName);
             return row.IsDBNull(ordinal) ? false : Convert.ToBoolean(row.GetValue(ordinal));
         }
 
-        public static object GetDefault(this Type t)
+        internal static object GetDefault(this Type t)
         {
             return t.IsValueType ? Activator.CreateInstance(t) : null;
         }
 
-        public static T GetDefault<T>()
+        internal static T GetDefault<T>()
         {
             var t = typeof(T);
             return (T)GetDefault(t);
         }
 
-        public static object IsDefault<T>(T other)
+        internal static object IsDefault<T>(T other)
         {
             T defaultValue = GetDefault<T>();
             if (other == null)
