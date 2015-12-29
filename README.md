@@ -1,4 +1,35 @@
-# retriever.net
-In most .net projects you need some way of accessing database data, usually for all new projects many may choose to use ORM frameworks. But at times you just need an easy way to access data without much configuration. With many modern apps, all you need is JSON coming out and going in.
+# Retriever.net
+Welcome to Retriever.net
 
-This library is an attempt to make it super easy to have JSON based data access layer in minutes, on SQL Server database(target is to support all major databases in future).
+In most .net projects some way of accessing database data is required, usually for all new projects many may choose to use ORM frameworks. But at times you just need an easy way to access data without much configuration. With many modern "Apps", all you need is JSON as input and output. 
+
+This library makes it super easy to have JSON based dataAccess layer in minutes, currently only works with MS SQL Server database. 
+
+This library depends on Newtonsoft.Json 
+
+You can do retrieve directly to JSON with couple of lines of code like... 
+
+    // Param is the key to the connectionstring config 
+    SqlDataRequest dataRequest = new SqlDataRequest("ConnectionString");    
+    string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", "{ Id : 1 }"));  
+
+Similarly insert/update is as simple as... 
+
+    var obj = new
+    {
+     Id = rInt,
+     Name = string.Format("Test :{0}", DateTime.Now.ToLongDateString()),
+     Description = string.Format("Description :{0}", DateTime.Now.ToLongDateString()),
+     Details = string.Format("Details :{0}", DateTime.Now.ToLongDateString()),
+     RecordedDate = DateTime.Now,
+     IsActive = true
+    };
+
+    int rowsAffected = dataRequest.Update("[dbo].[usp_Test_Insert]", obj);
+
+    // or you could directly send any JSON string like...
+    int rowsAffected = dataRequest.Update("[dbo].[usp_Test_Insert]", "{ Id : 1, Name :'Test' }");
+
+    // or a list of objects like...
+    List<dynamic> objects = new List<dynamic>() { obj1, obj2, obj3 };
+    int rowsAffected = dataRequest.Update("[dbo].[usp_Test_Insert]", objects);
