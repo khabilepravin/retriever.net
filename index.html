@@ -40,11 +40,8 @@ string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", "{ Id : 1 }"));
 <pre><code>var obj = new
 {
  Id = rInt,
- Name = string.Format("Test :{0}", DateTime.Now.ToLongDateString()),
- Description = string.Format("Description :{0}", DateTime.Now.ToLongDateString()),
- Details = string.Format("Details :{0}", DateTime.Now.ToLongDateString()),
- RecordedDate = DateTime.Now,
- IsActive = true
+ Name = "John Doe",
+ Description = "Demo test description"
 };
 
 int rowsAffected = dataRequest.Update("[dbo].[usp_Test_Insert]", obj);
