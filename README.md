@@ -17,12 +17,9 @@ Similarly insert/update is as simple as...
 
     var obj = new
     {
-     Id = rInt,
-     Name = string.Format("Test :{0}", DateTime.Now.ToLongDateString()),
-     Description = string.Format("Description :{0}", DateTime.Now.ToLongDateString()),
-     Details = string.Format("Details :{0}", DateTime.Now.ToLongDateString()),
-     RecordedDate = DateTime.Now,
-     IsActive = true
+     Id = 1,
+     Name = "John Doe",
+     Description = "Demo test object"
     };
 
     int rowsAffected = dataRequest.Update("[dbo].[usp_Test_Insert]", obj);
