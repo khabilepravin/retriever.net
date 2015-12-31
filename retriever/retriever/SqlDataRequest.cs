@@ -62,7 +62,7 @@ namespace Retriever.Net
             return Fetch(storedProcedureName, string.Empty);
         }
         
-        public int Update(string storedProcedureName, string jsonData, TransactionMode transMode)
+        public int Hurl(string storedProcedureName, string jsonData, TransactionMode transMode)
         {
             int numberOfRecordsAffected = 0;
             SqlTransaction transaction = null;
@@ -87,7 +87,7 @@ namespace Retriever.Net
             return numberOfRecordsAffected;
         }
 
-        public int Update(string storedProcedureName, System.Collections.Generic.List<dynamic> objects, TransactionMode transMode)
+        public int Hurl(string storedProcedureName, System.Collections.Generic.List<dynamic> objects, TransactionMode transMode)
         {
             // This has slightly different logic because we need to scope the transaction differently.
             int numberOfRecordsAffected = 0;
@@ -120,24 +120,24 @@ namespace Retriever.Net
         }
 
         // All update overloads for flexibility of use
-        public int Update(string storedProcedureName, string jsonData)
+        public int Hurl(string storedProcedureName, string jsonData)
         {
-            return Update(storedProcedureName, jsonData, TransactionMode.None);
+            return Hurl(storedProcedureName, jsonData, TransactionMode.None);
         }
 
-        public int Update(string storedProcedureName, dynamic obj) 
+        public int Hurl(string storedProcedureName, dynamic obj) 
         {
-            return Update(storedProcedureName, JsonConvert.SerializeObject(obj));
+            return Hurl(storedProcedureName, JsonConvert.SerializeObject(obj));
         }
 
-        public int Update(string storedProcedureName, dynamic obj, TransactionMode transMode)
+        public int Hurl(string storedProcedureName, dynamic obj, TransactionMode transMode)
         {
-            return Update(storedProcedureName, JsonConvert.SerializeObject(obj), transMode);
+            return Hurl(storedProcedureName, JsonConvert.SerializeObject(obj), transMode);
         }
 
-        public int Update(string storedProcedureName, System.Collections.Generic.List<dynamic> objects)
+        public int Hurl(string storedProcedureName, System.Collections.Generic.List<dynamic> objects)
         {
-           return Update(storedProcedureName, objects, TransactionMode.None);
+           return Hurl(storedProcedureName, objects, TransactionMode.None);
         }
                 
         public string ConnectionString { get; set; }

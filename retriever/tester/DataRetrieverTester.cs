@@ -38,7 +38,7 @@ namespace tester
                 IsActive = true
             };
             
-            int rowsAffected = dataRequest.Update("[dbo].[usp_Test_Insert]", obj);
+            int rowsAffected = dataRequest.Hurl("[dbo].[usp_Test_Insert]", obj);
             Assert.IsTrue(rowsAffected == -1 || rowsAffected > 0);
             #endregion Test for sending object directly
 
@@ -53,7 +53,7 @@ namespace tester
                 IsActive = true
             };
 
-            int rowsAffected2 = dataRequest.Update("[dbo].[usp_Test_Insert]", JsonConvert.SerializeObject(obj2));
+            int rowsAffected2 = dataRequest.Hurl("[dbo].[usp_Test_Insert]", JsonConvert.SerializeObject(obj2));
             Assert.IsTrue(rowsAffected2 == -1 || rowsAffected2 > 0);
             #endregion Test for sending json string
 
@@ -89,7 +89,7 @@ namespace tester
             };
             List<dynamic> objects = new List<dynamic>() { objForList1, objForList2, objForList3 };
 
-            int rowsAffected3 = dataRequest.Update("[dbo].[usp_Test_Insert]", objects);
+            int rowsAffected3 = dataRequest.Hurl("[dbo].[usp_Test_Insert]", objects);
             Assert.IsTrue(rowsAffected3 == -1 || rowsAffected3 > 0);
             #endregion Test for sending list of objects
         }
