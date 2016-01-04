@@ -6,7 +6,8 @@ namespace Retriever.Net
     {
         string ConnectionString { get; set; }
         string Fetch(string storedProcedureName, string jsonFetchParams);
-        string Fetch(string storedProcedureName);        
+        string Fetch(string storedProcedureName);
+        string Fetch(string storedProcedureName, dynamic paramsObject);
         int Hurl(string storedProcedureName, string jsonData, TransactionMode transMode);
         int Hurl(string storedProcedureName, string jsonData);        
         int Hurl(string storedProcedureName, dynamic obj);

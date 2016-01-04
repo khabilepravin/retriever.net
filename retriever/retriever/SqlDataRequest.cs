@@ -61,6 +61,11 @@ namespace Retriever.Net
         {
             return Fetch(storedProcedureName, string.Empty);
         }
+
+        public string Fetch(string storedProcedureName, dynamic paramsObject)
+        {
+            return Fetch(storedProcedureName, JsonConvert.SerializeObject(paramsObject));
+        }
         
         public int Hurl(string storedProcedureName, string jsonData, TransactionMode transMode)
         {

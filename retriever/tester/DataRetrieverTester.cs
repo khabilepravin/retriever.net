@@ -15,8 +15,9 @@ namespace tester
             SqlDataRequest dataRequest = new SqlDataRequest("ConnectionString");
 
             string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", JsonConvert.SerializeObject(new { Id = 1 }));
+            string result2 = dataRequest.Fetch("[dbo].[usp_Test_Select]", new { Id = 1 });
 
-            Assert.IsFalse(string.IsNullOrWhiteSpace(result));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result) && string.IsNullOrWhiteSpace(result2));
         }
 
         [TestMethod]
