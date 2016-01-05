@@ -11,13 +11,7 @@ namespace Retriever.Net
         /// This will assume "ConnectionString" is the config key for the connection string and will look for it.
         /// </summary>
         public SqlDataRequest() 
-        {
-            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["ConnectionString"];
-
-            if (settings != null)
-            {
-                settings.ConnectionString = settings.ConnectionString;
-            }
+        {            
         }
         
         /// <summary>
