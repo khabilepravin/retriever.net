@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -22,10 +23,26 @@ namespace Retriever.Net
         /// <summary>
         /// Creates an instance of the DataRequest with specific connection string config key
         /// </summary>
-        /// <param name="connectionStringConfigKey">Configuration key to get connection string from "ConnectionStrings" section</param>
-        public SqlDataRequest(string connectionStringConfigKey) 
+        /// <param name="connectionString">Either Configuration key to get connection string from "ConnectionStrings" section or connection string itself</param>
+        public SqlDataRequest(string connectionString) 
         {
-            this.ConnectionString = ConfigurationManager.ConnectionStrings[connectionStringConfigKey].ConnectionString;
+            if (!string.IsNullOrWhiteSpace(connectionString))
+            {
+                ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings[connectionString]; // .ConnectionString;
+
+                if (connectionStringSettings != null)
+                {
+                    this.ConnectionString = connectionStringSettings.ConnectionString;
+                }
+                else
+                {
+                    this.ConnectionString = connectionString;
+                }
+            }
+            else
+            {
+                throw new Exception("ConnectionString parameter has no value");
+            }
         }
 
         private SqlConnection CreateNewConnection()

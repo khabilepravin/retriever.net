@@ -15,7 +15,10 @@ namespace tester
             SqlDataRequest dataRequest = new SqlDataRequest("ConnectionString");
 
             string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", JsonConvert.SerializeObject(new { Id = 1 }));
-            string result2 = dataRequest.Fetch("[dbo].[usp_Test_Select]", new { Id = 1 });
+
+            SqlDataRequest dataRequest2 = new SqlDataRequest("Persist Security Info=False;Initial Catalog=Retriever;Data Source=(local);Packet Size=4096;Integrated Security=true;");
+
+            string result2 = dataRequest2.Fetch("[dbo].[usp_Test_Select]", new { Id = 1 });
 
             Assert.IsFalse(string.IsNullOrWhiteSpace(result) && string.IsNullOrWhiteSpace(result2));
         }
