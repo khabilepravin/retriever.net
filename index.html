@@ -31,7 +31,7 @@ Currently only works with MS SQL Server database.  </p>
 
 <p>You can do retrieve directly to JSON with couple of lines of code like...  </p>
 
-<pre><code>// Param is the key to the connectionstring config 
+<pre><code>// Param can be the config key to the connectionstring or the connection string itself
 SqlDataRequest dataRequest = new SqlDataRequest("ConnectionString");    
 string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", "{ Id : 1 }"));  
 </code></pre>
