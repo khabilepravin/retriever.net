@@ -35,19 +35,14 @@ namespace Retriever.Net
             }
             else
             {
-                throw new Exception("ConnectionString parameter has no value");
+                throw new Exception("ConnectionString parameter is null or empty");
             }
         }
-
-        private SqlConnection CreateNewConnection()
-        {
-            return new SqlConnection(this.ConnectionString);
-        }
-
+              
         public string Fetch(string storedProcedureName, string jsonFetchParams)
         {
             string resultJson = string.Empty;
-            using (SqlConnection dbConn = CreateNewConnection())
+            using (SqlConnection dbConn = new SqlConnection(this.ConnectionString))
             {
                 using (SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure })
                 {
@@ -83,7 +78,7 @@ namespace Retriever.Net
             int numberOfRecordsAffected = 0;
             SqlTransaction transaction = null;
 
-            using (SqlConnection dbConn = CreateNewConnection())
+            using (SqlConnection dbConn = new SqlConnection(this.ConnectionString))
             {
                 using (SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure })
                 {
@@ -109,7 +104,7 @@ namespace Retriever.Net
             int numberOfRecordsAffected = 0;
             SqlTransaction transaction = null;
 
-            using (SqlConnection dbConn = CreateNewConnection())
+            using (SqlConnection dbConn = new SqlConnection(this.ConnectionString))
             {
                 using (SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure })
                 {
