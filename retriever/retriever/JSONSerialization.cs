@@ -25,6 +25,7 @@ namespace Retriever.Net
                 results.Add(SerializeRow(cols, reader));
             }
 
+            reader.Close();
             return results;
         }
 
