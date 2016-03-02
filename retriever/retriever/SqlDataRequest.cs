@@ -6,10 +6,7 @@ using System.Data.SqlClient;
 namespace Retriever.Net
 {
     public class SqlDataRequest : IDataRequest
-    {
-        /// <summary>
-        /// This will assume "ConnectionString" is the config key for the connection string and will look for it.
-        /// </summary>
+    {       
         public SqlDataRequest() 
         {            
         }
@@ -54,15 +51,13 @@ namespace Retriever.Net
                     dbConn.Open();
                     SqlDataReader dataReader = dbComm.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
 
-                    resultJson = dataReader.SerializeToJSON();
-                    dataReader.Close();
+                    resultJson = dataReader.SerializeToJSON();                    
                 }
             }
 
             return resultJson;
         }
 
-        // Fetch overload which doesn't have any parameters
         public string Fetch(string storedProcedureName)
         {
             return Fetch(storedProcedureName, string.Empty);

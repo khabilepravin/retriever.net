@@ -10,7 +10,10 @@ namespace Retriever.Net
         internal static string SerializeToJSON(this SqlDataReader reader)
         {
             var r = SerializeSingle(reader);
-            return JsonConvert.SerializeObject(r);
+            string serializedJsonString = JsonConvert.SerializeObject(r);
+            reader.Close();
+
+            return serializedJsonString;
         }
 
         private static IEnumerable<Dictionary<string, object>> Serialize(this SqlDataReader reader)
