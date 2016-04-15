@@ -20,14 +20,14 @@
 
     <section class="main-content">
       <h3>
-<a id="welcome-to-retrievernet" class="anchor" href="#welcome-to-retrievernet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to Retriever.net</h3>
+<a id="welcome-to-retrievernet" class="anchor" href="#welcome-to-retrievernet" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to Retriever.net</h3>
 
 <p>In most .net projects some way of accessing database data is required, usually for all new projects many may choose to use ORM frameworks. But at times you just need an easy way to access data without much configuration. With many modern apps and APIs, all you need is JSON as input and output. </p>
 
-<p>This library makes it easy to develop JSON based dataAccess layer without much ADO.net boilerplate code. 
+<p>This library makes it easy to develop JSON based data access layer without much ADO.net boilerplate code. 
 Currently only works with MS SQL Server database.  </p>
 
-<p>This library depends on <a href="http://www.newtonsoft.com/json">Newtonsoft.Json</a> </p>
+<p>This library depends heavily on <a href="http://www.newtonsoft.com/json">Newtonsoft.Json</a> </p>
 
 <p>You can do retrieve directly to JSON with couple of lines of code like...  </p>
 
@@ -36,7 +36,7 @@ SqlDataRequest dataRequest = new SqlDataRequest("ConnectionString");
 string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", "{ Id : 1 }"));  
 </code></pre>
 
-<p>Similarly throwing an insert/update to the database is as simple as... </p>
+<p>Similarly an insert/update is as simple as... </p>
 
 <pre><code>var obj = new
 {
