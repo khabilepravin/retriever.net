@@ -2,7 +2,7 @@
 {
     public enum TransactionMode
     {
-        None = 0,
-        Transaction = 1
+        Off = 0,
+        On = 1
     }
 }
