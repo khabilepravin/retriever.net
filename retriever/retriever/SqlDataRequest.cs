@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Configuration;
 using System.Data.SqlClient;
 
 namespace Retriever.Net
@@ -14,25 +13,16 @@ namespace Retriever.Net
         /// <summary>
         /// Creates an instance of the DataRequest with specific connection string config key
         /// </summary>
-        /// <param name="connectionString">Either Configuration key to get connection string from "ConnectionStrings" section or connection string itself</param>
+        /// <param name="connectionString">Connection string</param>
         public SqlDataRequest(string connectionString) 
         {
             if (!string.IsNullOrWhiteSpace(connectionString))
-            {
-                ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings[connectionString]; // .ConnectionString;
-
-                if (connectionStringSettings != null)
-                {
-                    this.ConnectionString = connectionStringSettings.ConnectionString;
-                }
-                else
-                {
-                    this.ConnectionString = connectionString;
-                }
+            {   
+                this.ConnectionString = connectionString;             
             }
             else
             {
-                throw new Exception("ConnectionString parameter is null or empty");
+                throw new Exception("connectionString constructor parameter is null or empty");
             }
         }
               
@@ -77,7 +67,7 @@ namespace Retriever.Net
             {
                 using (SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure })
                 {
-                    if (transMode == TransactionMode.Transaction)
+                    if (transMode == TransactionMode.On)
                     {
                         transaction = dbConn.BeginTransaction();
                     }
@@ -103,7 +93,7 @@ namespace Retriever.Net
             {
                 using (SqlCommand dbComm = new SqlCommand(storedProcedureName, dbConn) { CommandType = System.Data.CommandType.StoredProcedure })
                 {
-                    if (transMode == TransactionMode.Transaction)
+                    if (transMode == TransactionMode.On)
                     {
                         transaction = dbConn.BeginTransaction();
                     }
@@ -128,7 +118,7 @@ namespace Retriever.Net
         // All update overloads for flexibility of use
         public int Hurl(string storedProcedureName, string jsonData)
         {
-            return Hurl(storedProcedureName, jsonData, TransactionMode.None);
+            return Hurl(storedProcedureName, jsonData, TransactionMode.Off);
         }
 
         public int Hurl(string storedProcedureName, dynamic obj) 
@@ -143,7 +133,7 @@ namespace Retriever.Net
 
         public int Hurl(string storedProcedureName, System.Collections.Generic.List<dynamic> objects)
         {
-           return Hurl(storedProcedureName, objects, TransactionMode.None);
+           return Hurl(storedProcedureName, objects, TransactionMode.Off);
         }
                 
         public string ConnectionString { get; set; }
