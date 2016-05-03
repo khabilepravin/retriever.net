@@ -9,12 +9,13 @@ namespace tester
     [TestClass]
     public class DataRetrieverTester
     {
+        private const string ConnectionString = @"Persist Security Info=False;Initial Catalog=Dev_Test;Data Source=EDIMS-DEVDB1-VM\SQL2008R2;Packet Size=4096;Enlist=false;User Id=EDIMAppAcct;Password=X13b18P!Rh;";
         [TestMethod]
         public void ExecuteFetchTests()
-        {
-            SqlDataRequest dataRequest = new SqlDataRequest("Persist Security Info=False;Initial Catalog=Retriever;Data Source=(local);Packet Size=4096;Integrated Security=true;");
+        {             
+            SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
 
-            string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", new { Id = 1 });
+            string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", new { Id = new Guid("69E24E7A-A24B-4241-BA5E-022E3EDBDA1D") });
 
             Assert.IsFalse(string.IsNullOrWhiteSpace(result));
         }
@@ -22,15 +23,12 @@ namespace tester
         [TestMethod]
         public void ExecuteUpdateTests()
         {
-            SqlDataRequest dataRequest = new SqlDataRequest("Persist Security Info=False;Initial Catalog=Retriever;Data Source=(local);Packet Size=4096;Integrated Security=true;");
-
-            Random r = new Random(DateTime.Now.Millisecond);
-            int rInt = r.Next(0, int.MaxValue); //for ints            
+            SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
 
             #region Test for sending object directly
             var obj = new
             {
-                Id = rInt,
+                Id = Guid.NewGuid(),
                 Name = string.Format("Test :{0}", DateTime.Now.ToLongDateString()),
                 Description = string.Format("Description :{0}", DateTime.Now.ToLongDateString()),
                 Details = string.Format("Details :{0}", DateTime.Now.ToLongDateString()),
@@ -39,13 +37,13 @@ namespace tester
             };
             
             int rowsAffected = dataRequest.Hurl("[dbo].[usp_Test_Insert]", obj);
-            Assert.IsTrue(rowsAffected == -1 || rowsAffected > 0);
+            Assert.IsTrue(rowsAffected > 0);
             #endregion Test for sending object directly
 
             #region Test for sending json string
             var obj2 = new
             {
-                Id = (rInt + 1),
+                Id = Guid.NewGuid(),
                 Name = string.Format("Test :{0}", DateTime.Now.ToLongDateString()),
                 Description = string.Format("Description :{0}", DateTime.Now.ToLongDateString()),
                 Details = string.Format("Details :{0}", DateTime.Now.ToLongDateString()),
@@ -54,13 +52,13 @@ namespace tester
             };
 
             int rowsAffected2 = dataRequest.Hurl("[dbo].[usp_Test_Insert]", JsonConvert.SerializeObject(obj2));
-            Assert.IsTrue(rowsAffected2 == -1 || rowsAffected2 > 0);
+            Assert.IsTrue(rowsAffected2 > 0);
             #endregion Test for sending json string
 
             #region Test for sending list of objects
             var objForList1 = new
             {
-                Id = (rInt + 1),
+                Id = Guid.NewGuid(),
                 Name = string.Format("Test :{0}", DateTime.Now.ToLongDateString()),
                 Description = string.Format("Description :{0}", DateTime.Now.ToLongDateString()),
                 Details = string.Format("Details :{0}", DateTime.Now.ToLongDateString()),
@@ -70,7 +68,7 @@ namespace tester
 
             var objForList2 = new
             {
-                Id = (rInt + 1),
+                Id = Guid.NewGuid(),
                 Name = string.Format("Test :{0}", DateTime.Now.ToLongDateString()),
                 Description = string.Format("Description :{0}", DateTime.Now.ToLongDateString()),
                 Details = string.Format("Details :{0}", DateTime.Now.ToLongDateString()),
@@ -80,7 +78,7 @@ namespace tester
 
             var objForList3 = new
             {
-                Id = (rInt + 1),
+                Id = Guid.NewGuid(),
                 Name = string.Format("Test :{0}", DateTime.Now.ToLongDateString()),
                 Description = string.Format("Description :{0}", DateTime.Now.ToLongDateString()),
                 Details = string.Format("Details :{0}", DateTime.Now.ToLongDateString()),
@@ -90,7 +88,7 @@ namespace tester
             List<dynamic> objects = new List<dynamic>() { objForList1, objForList2, objForList3 };
 
             int rowsAffected3 = dataRequest.Hurl("[dbo].[usp_Test_Insert]", objects);
-            Assert.IsTrue(rowsAffected3 == -1 || rowsAffected3 > 0);
+            Assert.IsTrue(rowsAffected3 > 0);
             #endregion Test for sending list of objects
         }
     }
