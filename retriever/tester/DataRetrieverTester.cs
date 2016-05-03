@@ -11,7 +11,7 @@ namespace tester
     {
         private const string ConnectionString = @"Persist Security Info=False;Initial Catalog=Dev_Test;Data Source=EDIMS-DEVDB1-VM\SQL2008R2;Packet Size=4096;Enlist=false;User Id=EDIMAppAcct;Password=X13b18P!Rh;";
         [TestMethod]
-        public void ExecuteFetchTests()
+        public void FetchTest()
         {             
             SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
 
@@ -21,11 +21,10 @@ namespace tester
         }
 
         [TestMethod]
-        public void ExecuteUpdateTests()
+        public void SingleObjectHurlTest()
         {
             SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
-
-            #region Test for sending object directly
+                      
             var obj = new
             {
                 Id = Guid.NewGuid(),
@@ -38,24 +37,13 @@ namespace tester
             
             int rowsAffected = dataRequest.Hurl("[dbo].[usp_Test_Insert]", obj);
             Assert.IsTrue(rowsAffected > 0);
-            #endregion Test for sending object directly
+        }
 
-            #region Test for sending json string
-            var obj2 = new
-            {
-                Id = Guid.NewGuid(),
-                Name = string.Format("Test :{0}", DateTime.Now.ToLongDateString()),
-                Description = string.Format("Description :{0}", DateTime.Now.ToLongDateString()),
-                Details = string.Format("Details :{0}", DateTime.Now.ToLongDateString()),
-                RecordedDate = DateTime.Now,
-                IsActive = true
-            };
+        [TestMethod]
+        public void MultiObjectHurlTest()
+        {
+            SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
 
-            int rowsAffected2 = dataRequest.Hurl("[dbo].[usp_Test_Insert]", JsonConvert.SerializeObject(obj2));
-            Assert.IsTrue(rowsAffected2 > 0);
-            #endregion Test for sending json string
-
-            #region Test for sending list of objects
             var objForList1 = new
             {
                 Id = Guid.NewGuid(),
@@ -88,8 +76,26 @@ namespace tester
             List<dynamic> objects = new List<dynamic>() { objForList1, objForList2, objForList3 };
 
             int rowsAffected3 = dataRequest.Hurl("[dbo].[usp_Test_Insert]", objects);
-            Assert.IsTrue(rowsAffected3 > 0);
-            #endregion Test for sending list of objects
+            Assert.IsTrue(rowsAffected3 > 0);            
+        }
+
+        [TestMethod]
+        public void JsonStringHurlTest()
+        {
+            SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
+
+            var obj2 = new
+            {
+                Id = Guid.NewGuid(),
+                Name = string.Format("Test :{0}", DateTime.Now.ToLongDateString()),
+                Description = string.Format("Description :{0}", DateTime.Now.ToLongDateString()),
+                Details = string.Format("Details :{0}", DateTime.Now.ToLongDateString()),
+                RecordedDate = DateTime.Now,
+                IsActive = true
+            };
+
+            int rowsAffected2 = dataRequest.Hurl("[dbo].[usp_Test_Insert]", JsonConvert.SerializeObject(obj2));
+            Assert.IsTrue(rowsAffected2 > 0);
         }
     }
 }
