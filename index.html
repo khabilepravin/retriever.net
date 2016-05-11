@@ -31,8 +31,8 @@ Currently only works with MS SQL Server database.  </p>
 
 <p>You can do retrieve directly to JSON with couple of lines of code like...  </p>
 
-<pre><code>// Param can be the config key to the connectionstring or the connection string itself
-SqlDataRequest dataRequest = new SqlDataRequest("ConnectionString");    
+<pre><code>// Param is the db connection string 
+SqlDataRequest dataRequest = new SqlDataRequest("[ConnectionString]");    
 string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", "{ Id : 1 }"));  
 </code></pre>
 
@@ -46,13 +46,6 @@ string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", "{ Id : 1 }"));
 };
 
 int rowsAffected = dataRequest.Hurl("[dbo].[usp_Test_Insert]", obj);
-
-// or you could directly send any JSON string like...
-int rowsAffected = dataRequest.Hurl("[dbo].[usp_Test_Insert]", "{ Id : 1, Name :'Test' }");
-
-// or a list of objects like...
-List&lt;dynamic&gt; objects = new List&lt;dynamic&gt;() { obj1, obj2, obj3 };
-int rowsAffected = dataRequest.Hurl("[dbo].[usp_Test_Insert]", objects);
 </code></pre>
 
       <footer class="site-footer">
