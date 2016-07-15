@@ -7,7 +7,7 @@
     <ProjectGuid>{CF7A4EEC-7FBA-4178-A377-15D30590B7A8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>retriever.oracle</RootNamespace>
+    <RootNamespace>Retriever.Oracle</RootNamespace>
     <AssemblyName>retriever.oracle</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OracleDataRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
