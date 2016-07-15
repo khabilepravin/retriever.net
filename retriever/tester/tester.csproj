@@ -62,9 +62,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\retriever\retriever.csproj">
+    <ProjectReference Include="..\retriever\retriever.sql.csproj">
       <Project>{e7c83d57-82c1-41e5-a91b-fc9537f7deec}</Project>
-      <Name>retriever</Name>
+      <Name>retriever.sql</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

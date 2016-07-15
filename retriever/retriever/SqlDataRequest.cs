@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Data.SqlClient;
+using Retriever.Core;
 
 namespace Retriever.Net
 {
