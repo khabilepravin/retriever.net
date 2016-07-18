@@ -12,16 +12,10 @@ namespace Retriever.Oracle
             {
                 throw new NotImplementedException();
             }
-
             set
             {
                 throw new NotImplementedException();
             }
-        }
-
-        public string Fetch(string storedProcedureName)
-        {
-            throw new NotImplementedException();
         }
 
         public string Fetch(string storedProcedureName, dynamic paramsObject)

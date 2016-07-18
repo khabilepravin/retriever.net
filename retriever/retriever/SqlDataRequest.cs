@@ -27,7 +27,7 @@ namespace Retriever.Net
             }
         }
               
-        public string Fetch(string storedProcedureName, string jsonFetchParams)
+        public string Fetch(string storedProcedureName, string jsonFetchParams=null)
         {
             string resultJson = string.Empty;
             using (SqlConnection dbConn = new SqlConnection(this.ConnectionString))
@@ -47,12 +47,7 @@ namespace Retriever.Net
             }
 
             return resultJson;
-        }
-
-        public string Fetch(string storedProcedureName)
-        {
-            return Fetch(storedProcedureName, string.Empty);
-        }
+        }       
 
         public string Fetch(string storedProcedureName, dynamic paramsObject)
         {
