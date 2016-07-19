@@ -7,10 +7,6 @@ namespace Retriever.Net
 {
     public class SqlDataRequest : IDataRequest
     {       
-        public SqlDataRequest() 
-        {            
-        }
-        
         /// <summary>
         /// Creates an instance of the DataRequest with specific connection string config key
         /// </summary>
@@ -18,15 +14,17 @@ namespace Retriever.Net
         public SqlDataRequest(string connectionString) 
         {
             if (!string.IsNullOrWhiteSpace(connectionString))
-            {   
-                this.ConnectionString = connectionString;             
+            {
+                ConnectionString = connectionString;             
             }
             else
             {
                 throw new Exception("connectionString constructor parameter is null or empty");
             }
         }
-              
+
+        public SqlDataRequest() { }
+
         public string Fetch(string storedProcedureName, string jsonFetchParams=null)
         {
             string resultJson = string.Empty;
