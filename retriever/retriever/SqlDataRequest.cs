@@ -42,7 +42,9 @@ namespace Retriever.Net
                     dbConn.Open();
                     SqlDataReader dataReader = dbComm.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
 
-                    resultJson = dataReader.SerializeToJSON();                    
+                    resultJson = dataReader.SerializeToJSON();
+
+                    dataReader.Close();
                 }
             }
 
@@ -53,7 +55,7 @@ namespace Retriever.Net
         {
             return Fetch(storedProcedureName, JsonConvert.SerializeObject(paramsObject));
         }
-        
+              
         public int Hurl(string storedProcedureName, string jsonData, TransactionMode transMode)
         {
             int numberOfRecordsAffected = 0;

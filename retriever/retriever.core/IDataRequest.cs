@@ -5,7 +5,7 @@ namespace Retriever.Core
     public interface IDataRequest
     {
         string ConnectionString { get; set; }
-        string Fetch(string storedProcedureName, string jsonFetchParams);        
+        string Fetch(string storedProcedureName, string jsonFetchParams = null);
         string Fetch(string storedProcedureName, dynamic paramsObject);
         int Hurl(string storedProcedureName, string jsonData, TransactionMode transMode);
         int Hurl(string storedProcedureName, string jsonData);
