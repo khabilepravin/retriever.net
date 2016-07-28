@@ -1,4 +1,4 @@
-﻿namespace Retriever.Net
+﻿namespace Retriever.Core
 {
     public enum TransactionMode
     {

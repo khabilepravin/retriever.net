@@ -1,15 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Data.SqlClient;
+using Retriever.Core;
 
 namespace Retriever.Net
 {
     public class SqlDataRequest : IDataRequest
     {       
-        public SqlDataRequest() 
-        {            
-        }
-        
         /// <summary>
         /// Creates an instance of the DataRequest with specific connection string config key
         /// </summary>
@@ -17,16 +14,18 @@ namespace Retriever.Net
         public SqlDataRequest(string connectionString) 
         {
             if (!string.IsNullOrWhiteSpace(connectionString))
-            {   
-                this.ConnectionString = connectionString;             
+            {
+                ConnectionString = connectionString;             
             }
             else
             {
                 throw new Exception("connectionString constructor parameter is null or empty");
             }
         }
-              
-        public string Fetch(string storedProcedureName, string jsonFetchParams)
+
+        public SqlDataRequest() { }
+
+        public string Fetch(string storedProcedureName, string jsonFetchParams=null)
         {
             string resultJson = string.Empty;
             using (SqlConnection dbConn = new SqlConnection(this.ConnectionString))
@@ -41,23 +40,20 @@ namespace Retriever.Net
                     dbConn.Open();
                     SqlDataReader dataReader = dbComm.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
 
-                    resultJson = dataReader.SerializeToJSON();                    
+                    resultJson = dataReader.SerializeToJSON();
+
+                    dataReader.Close();
                 }
             }
 
             return resultJson;
-        }
-
-        public string Fetch(string storedProcedureName)
-        {
-            return Fetch(storedProcedureName, string.Empty);
-        }
+        }       
 
         public string Fetch(string storedProcedureName, dynamic paramsObject)
         {
             return Fetch(storedProcedureName, JsonConvert.SerializeObject(paramsObject));
         }
-        
+              
         public int Hurl(string storedProcedureName, string jsonData, TransactionMode transMode)
         {
             int numberOfRecordsAffected = 0;
