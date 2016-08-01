@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Pravin Khabile</authors>
+    <owners>Pravin Khabile</owners>
+    <licenseUrl>https://github.com/khabilepravin/retriever.net/blob/master/LICENSE.MD</licenseUrl>
+    <projectUrl>http://khabilepravin.github.io/retriever.net/</projectUrl>    
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>    
+    <copyright>Copyright 2016</copyright>
+    <tags>DataAcccess JSON</tags>
+  </metadata>
+</package>
