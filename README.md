@@ -30,3 +30,12 @@ Similarly an insert/update is as simple as...
     // or a list of objects like...
     List<dynamic> objects = new List<dynamic>() { obj1, obj2, obj3 };
     int rowsAffected = dataRequest.Hurl("[dbo].[usp_Test_Insert]", objects);
+    
+What you need to get started with the code.
+
+1. Visual Studio 2015 Community Edition (Update >= 2) 
+2. Framework 4.5+
+3. SQL server/express
+
+The test project has db script, which sets up the test database to run unit tests against, why moq when you can run aganist actual database. 
+
