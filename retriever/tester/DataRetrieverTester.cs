@@ -10,7 +10,7 @@ namespace tester
     public class DataRetrieverTester
     {
         // Change this connection string to your server connection string
-        private const string ConnectionString = @"Persist Security Info=False;Initial Catalog=Dev_Test;Data Source=EDIMS-DEVDB1-VM\SQL2008R2;Packet Size=4096;Enlist=false;User Id=EDIMAppAcct;Password=X13b18P!Rh;";
+        private const string ConnectionString = @"";
 
         [TestMethod]
         public void FetchWithoutParamsTest()
