@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "retriever", "retriever\retriever.csproj", "{E7C83D57-82C1-41E5-A91B-FC9537F7DEEC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tester", "tester\tester.csproj", "{B237306A-798E-486F-A2C4-508FA73DAC12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "retriever.core", "retriever.core\retriever.core.csproj", "{1A3289FA-4D9F-4C38-9123-2CB80A3B8810}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "retriever.oracle", "retriever.oracle\retriever.oracle.csproj", "{CF7A4EEC-7FBA-4178-A377-15D30590B7A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "retriever.mysql", "retriever.mysql\retriever.mysql.csproj", "{0F8756F1-5CF3-4589-A2BC-362488F03B0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "retriever.sql", "retriever.sql\retriever.sql.csproj", "{E7C83D57-82C1-41E5-A91B-FC9537F7DEEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +19,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E7C83D57-82C1-41E5-A91B-FC9537F7DEEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7C83D57-82C1-41E5-A91B-FC9537F7DEEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7C83D57-82C1-41E5-A91B-FC9537F7DEEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7C83D57-82C1-41E5-A91B-FC9537F7DEEC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B237306A-798E-486F-A2C4-508FA73DAC12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B237306A-798E-486F-A2C4-508FA73DAC12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B237306A-798E-486F-A2C4-508FA73DAC12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B237306A-798E-486F-A2C4-508FA73DAC12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A3289FA-4D9F-4C38-9123-2CB80A3B8810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A3289FA-4D9F-4C38-9123-2CB80A3B8810}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A3289FA-4D9F-4C38-9123-2CB80A3B8810}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A3289FA-4D9F-4C38-9123-2CB80A3B8810}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF7A4EEC-7FBA-4178-A377-15D30590B7A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF7A4EEC-7FBA-4178-A377-15D30590B7A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF7A4EEC-7FBA-4178-A377-15D30590B7A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF7A4EEC-7FBA-4178-A377-15D30590B7A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F8756F1-5CF3-4589-A2BC-362488F03B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F8756F1-5CF3-4589-A2BC-362488F03B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F8756F1-5CF3-4589-A2BC-362488F03B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F8756F1-5CF3-4589-A2BC-362488F03B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7C83D57-82C1-41E5-A91B-FC9537F7DEEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7C83D57-82C1-41E5-A91B-FC9537F7DEEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7C83D57-82C1-41E5-A91B-FC9537F7DEEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7C83D57-82C1-41E5-A91B-FC9537F7DEEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

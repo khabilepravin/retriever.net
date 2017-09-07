@@ -10,27 +10,10 @@ namespace Retriever.Net
         internal static string SerializeToJSON(this SqlDataReader reader)
         {
             var r = SerializeSingle(reader);
-            string serializedJsonString = JsonConvert.SerializeObject(r);
-            reader.Close();
+            string serializedJsonString = JsonConvert.SerializeObject(r);            
 
             return serializedJsonString;
-        }
-
-        private static IEnumerable<Dictionary<string, object>> Serialize(this SqlDataReader reader)
-        {
-            var results = new List<Dictionary<string, object>>();
-            var cols = new List<string>();
-            for (var i = 0; i < reader.FieldCount; i++)
-            { cols.Add(reader.GetName(i)); }
-
-            while (reader.Read())
-            {
-                results.Add(SerializeRow(cols, reader));
-            }
-
-            reader.Close();
-            return results;
-        }
+        } 
 
         private static Dictionary<string, object> SerializeRow(IEnumerable<string> cols,
                                                        SqlDataReader reader)
@@ -60,13 +43,6 @@ namespace Retriever.Net
             }
 
             return result;
-        }
-
-        internal static dynamic SerializeToList<T>(this SqlDataReader reader)
-        {
-            var r = Serialize(reader);
-            string serilizedInString = JsonConvert.SerializeObject(r);
-            return JsonConvert.DeserializeObject<T>(serilizedInString);
         }
 
         internal static dynamic SerializeToObject<T>(this SqlDataReader reader)

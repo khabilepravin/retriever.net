@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>tester</RootNamespace>
     <AssemblyName>tester</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,13 +63,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\retriever\retriever.csproj">
-      <Project>{e7c83d57-82c1-41e5-a91b-fc9537f7deec}</Project>
-      <Name>retriever</Name>
-    </ProjectReference>
+    <Content Include="DatabaseScripts\db.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DatabaseScripts\db.sql" />
+    <ProjectReference Include="..\retriever.mysql\retriever.mysql.csproj">
+      <Project>{0f8756f1-5cf3-4589-a2bc-362488f03b0a}</Project>
+      <Name>retriever.mysql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\retriever.oracle\retriever.oracle.csproj">
+      <Project>{cf7a4eec-7fba-4178-a377-15d30590b7a8}</Project>
+      <Name>retriever.oracle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\retriever.sql\retriever.sql.csproj">
+      <Project>{e7c83d57-82c1-41e5-a91b-fc9537f7deec}</Project>
+      <Name>retriever.sql</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

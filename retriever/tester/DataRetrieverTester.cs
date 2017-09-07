@@ -12,12 +12,33 @@ namespace tester
     {
         // Change this connection string to your server connection string
         private const string ConnectionString = @"";
+
         [TestMethod]
-        public void FetchTest()
+        public void FetchWithoutParamsTest()
+        {
+            SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
+
+            string result = dataRequest.Fetch("[dbo].[usp_Test_Select]");
+
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result));
+        }
+
+        [TestMethod]
+        public void FetchByDynamicObjParamsTest()
         {             
             SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
 
             string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", new { Id = new Guid("69E24E7A-A24B-4241-BA5E-022E3EDBDA1D") });
+
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result));
+        }
+
+        [TestMethod]
+        public void FetchByJSONStringParamsTest()
+        {
+            SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
+
+            string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", "{ Id : '69E24E7A-A24B-4241-BA5E-022E3EDBDA1D'}");
 
             Assert.IsFalse(string.IsNullOrWhiteSpace(result));
         }
