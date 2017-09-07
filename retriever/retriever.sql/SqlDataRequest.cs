@@ -9,7 +9,7 @@ namespace Retriever.Net
     public class SqlDataRequest : IDataRequest
     {       
         /// <summary>
-        /// Creates an instance of the DataRequest with specific connection string config key
+        /// Creates an instance of the DataRequest with specific connection stBring config key
         /// </summary>
         /// <param name="connectionString">Connection string</param>
         public SqlDataRequest(string connectionString) 
