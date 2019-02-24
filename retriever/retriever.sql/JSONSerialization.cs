@@ -8,9 +8,18 @@ namespace Retriever.Net
     internal static class JSONSerialization
     {
         internal static string SerializeToJSON(this SqlDataReader reader)
-        {
-            var r = SerializeSingle(reader);
-            string serializedJsonString = JsonConvert.SerializeObject(r);            
+        {   
+            var r = SerializeMultiple(reader);
+
+            string serializedJsonString;
+            if (r.Count == 0)
+            {
+                serializedJsonString = JsonConvert.SerializeObject(r[0]);
+            }
+            else
+            {
+                serializedJsonString = JsonConvert.SerializeObject(r);
+            }
 
             return serializedJsonString;
         } 
@@ -37,9 +46,24 @@ namespace Retriever.Net
             for (var i = 0; i < reader.FieldCount; i++)
             { cols.Add(reader.GetName(i)); }
 
-            if (reader.Read())
+            while (reader.Read())
             {
                 result = SerializeRow(cols, reader);
+            }
+
+            return result;
+        }
+
+        private static List<Dictionary<string, object>> SerializeMultiple(this SqlDataReader reader)
+        {
+            var result = new List<Dictionary<string, object>>();
+            var cols = new List<string>();
+            for (var i = 0; i < reader.FieldCount; i++)
+            { cols.Add(reader.GetName(i)); }
+
+            while (reader.Read())
+            {
+                result.Add(SerializeRow(cols, reader));
             }
 
             return result;

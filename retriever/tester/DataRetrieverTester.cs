@@ -4,6 +4,7 @@ using Retriever.Net;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace tester
 {
@@ -11,8 +12,8 @@ namespace tester
     public class DataRetrieverTester
     {
         // Change this connection string to your server connection string
-        private const string ConnectionString = @"";
-
+        private const string ConnectionString = @"Persist Security Info=False;Initial Catalog=test;Data Source=DESKTOP-P58VK49;Packet Size=4096;Enlist=false;Integrated Security=true;";
+        private Guid idGuid = new Guid("87D2DDFE-666D-470A-8984-2EDE473BACF1");
         [TestMethod]
         public void FetchWithoutParamsTest()
         {
@@ -20,7 +21,9 @@ namespace tester
 
             string result = dataRequest.Fetch("[dbo].[usp_Test_Select]");
 
-            Assert.IsFalse(string.IsNullOrWhiteSpace(result));
+            var token = JToken.Parse(result);
+            
+            Assert.IsTrue(token is JArray);
         }
 
         [TestMethod]
@@ -28,7 +31,7 @@ namespace tester
         {             
             SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
 
-            string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", new { Id = new Guid("69E24E7A-A24B-4241-BA5E-022E3EDBDA1D") });
+            string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", new { Id = idGuid });
 
             Assert.IsFalse(string.IsNullOrWhiteSpace(result));
         }
@@ -38,7 +41,7 @@ namespace tester
         {
             SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
 
-            string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", "{ Id : '69E24E7A-A24B-4241-BA5E-022E3EDBDA1D'}");
+            string result = dataRequest.Fetch("[dbo].[usp_Test_Select]", JsonConvert.SerializeObject(new { Id = idGuid}));
 
             Assert.IsFalse(string.IsNullOrWhiteSpace(result));
         }
@@ -129,7 +132,7 @@ namespace tester
         {
             SqlDataRequest dataRequest = new SqlDataRequest(ConnectionString);
 
-            string result = await dataRequest.FetchAsync("[dbo].[usp_Test_Select]", new { Id = new Guid("69E24E7A-A24B-4241-BA5E-022E3EDBDA1D") });
+            string result = await dataRequest.FetchAsync("[dbo].[usp_Test_Select]", new { Id = idGuid });
 
             Assert.IsFalse(string.IsNullOrWhiteSpace(result));
         }

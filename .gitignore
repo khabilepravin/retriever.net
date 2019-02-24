@@ -192,3 +192,7 @@ ModelManifest.xml
 /retriever/retriever/retriever.1.0.0.0.nupkg
 /retriever/retriever.sql/retriever.1.0.0.1.nupkg
 /retriever/retriever.sql/retriever.1.0.0.0.nupkg
+/retriever/.vs/retriever/v15/Server/sqlite3/storage.ide-wal
+/retriever/.vs/retriever/v15/Server/sqlite3/storage.ide-shm
+/retriever/.vs/retriever/v15/Server/sqlite3/storage.ide
+/retriever/.vs/retriever/v15/Server/sqlite3/db.lock
